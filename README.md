@@ -1,5 +1,5 @@
-<img alt="logo" height="128" src="https://github.com/GlodBlock/ExPatternProvider/blob/1.19.2-forge/logo.png?raw=true" width="128"/>
+## Functional Chemical
 
-[![Downloads](https://cf.way2muchnoise.eu/full_892005_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/ex-pattern-provider) ![MCVsrsion](https://cf.way2muchnoise.eu/versions/892005.svg)
+<img alt="logo" height="128" src="https://github.com/GlodBlock/FunctionalChemical/blob/1.19.2/src/main/resources/logo.png?raw=true" width="128"/>
 
-### Add a 36 slots pattern provider for AE2
+Add Mekanism chemicals support to Functional Storage drawers
