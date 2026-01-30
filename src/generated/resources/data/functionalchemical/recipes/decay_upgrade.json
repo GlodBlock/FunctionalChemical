@@ -1,0 +1,40 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:and",
+          "values": [
+            {
+              "type": "forge:item_exists",
+              "item": "functionalchemical:decay_upgrade"
+            }
+          ]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "B": {
+            "tag": "forge:ingots/bronze"
+          },
+          "D": {
+            "tag": "functionalstorage:drawer"
+          },
+          "E": {
+            "item": "mekanism:hdpe_sheet"
+          }
+        },
+        "pattern": [
+          "EEE",
+          "BDB",
+          "EEE"
+        ],
+        "result": {
+          "item": "functionalchemical:decay_upgrade"
+        }
+      }
+    }
+  ]
+}

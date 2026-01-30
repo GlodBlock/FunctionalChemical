@@ -1,0 +1,6 @@
+{
+  "parent": "functionalchemical:block/radioactive_drawer",
+  "textures": {
+    "lock_icon": "functionalstorage:blocks/lock"
+  }
+}

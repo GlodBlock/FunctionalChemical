@@ -1,0 +1,38 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:and",
+          "values": [
+            {
+              "type": "forge:item_exists",
+              "item": "functionalchemical:chem_2"
+            }
+          ]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "C": {
+            "item": "mekanism:basic_chemical_tank"
+          },
+          "P": {
+            "tag": "minecraft:planks"
+          }
+        },
+        "pattern": [
+          "PCP",
+          "PPP",
+          "PCP"
+        ],
+        "result": {
+          "count": 2,
+          "item": "functionalchemical:chem_2"
+        }
+      }
+    }
+  ]
+}

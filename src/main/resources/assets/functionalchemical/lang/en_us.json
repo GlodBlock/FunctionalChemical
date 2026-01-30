@@ -1,0 +1,10 @@
+{
+  "itemGroup.functionalchemical": "Functional Chemical",
+  "block.functionalchemical.chem_1": "Chemical Drawer (1x1)",
+  "block.functionalchemical.chem_2": "Chemical Drawer (1x2)",
+  "block.functionalchemical.chem_4": "Chemical Drawer (2x2)",
+  "block.functionalchemical.radioactive_drawer": "Radioactive Drawer",
+  "item.functionalchemical.decay_upgrade": "Decay Upgrade",
+  "tooltip.functionalchemical.decay_upgrade": "Allow decayable chemicals to decay in drawer.",
+  "gui.functionalchemical.chemical": "Chemical: "
+}
