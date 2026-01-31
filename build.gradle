@@ -90,6 +90,39 @@ minecraft {
     }
 }
 
+createMcpToSrg {
+    outputs.upToDateWhen {false}
+    doLast {
+        fixFG5TsrgForMixinAP(output.get().asFile, file("${buildDir}/fixMcpToSrg/output.tsrg"))
+    }
+}
+
+static def fixFG5TsrgForMixinAP(File inFile, File outFile) {
+    // Make directory if needed
+    outFile.parentFile.mkdirs()
+
+    try (Scanner scanner = new Scanner(inFile); PrintWriter out = new PrintWriter(outFile)) {
+        boolean firstLine = true
+        while (scanner.hasNextLine()) {
+            String next = scanner.nextLine()
+
+            // Skip first 'tsrg left right' header line
+            if (firstLine) {
+                firstLine = false
+                continue
+            }
+
+            // Skip 'static' indicators
+            if (next.trim() == "static") {
+                continue
+            }
+
+            // Export line otherwise
+            out.println(next)
+        }
+    }
+}
+
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
@@ -147,5 +180,6 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 mixin {
+    reobfSrgFile = file("${buildDir}/fixMcpToSrg/output.tsrg")
     add sourceSets.main, "mixins.functionalchemical.refmap.json"
 }

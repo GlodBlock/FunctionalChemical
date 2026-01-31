@@ -76,7 +76,8 @@ public abstract class MixinConnectedDrawers implements ChemicalModule {
             method = "rebuild",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/level/Level;getBlockEntity(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/entity/BlockEntity;"
+                    target = "Lnet/minecraft/world/level/Level;getBlockEntity(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/entity/BlockEntity;",
+                    remap = true
             ),
             remap = false
     )
