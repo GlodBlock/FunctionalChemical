@@ -137,6 +137,7 @@ jar {
                 "MixinConfigs": "mixins.functionalchemical.json"
         ])
     }
+    exclude(".cache/**")
 }
 
 jar.finalizedBy('reobfJar')
