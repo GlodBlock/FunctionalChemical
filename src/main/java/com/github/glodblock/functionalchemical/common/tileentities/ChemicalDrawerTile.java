@@ -64,6 +64,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.LongSupplier;
 
 @SuppressWarnings("rawtypes")
@@ -472,10 +473,7 @@ public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTil
 
     @Override
     public void onDataPacket(@NotNull Connection net, ClientboundBlockEntityDataPacket pkt) {
-        var tag = pkt.getTag();
-        if (tag != null) {
-            this.load(tag);
-        }
+        this.load(Objects.requireNonNullElse(pkt.getTag(), new CompoundTag()));
     }
 
     @Override
@@ -553,8 +551,11 @@ public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTil
             var chemTankTag = new CompoundTag();
             for (int i = 0; i < this.tanks.length; i++) {
                 for (var chemType : ChemType.values()) {
-                    var key = "#" + i + "_" + chemType.getId();
-                    chemTankTag.put(key, this.tanks[i].getTankForType(chemType.getNativeType()).serializeNBT());
+                    var tank = this.tanks[i].getTankForType(chemType.getNativeType());
+                    if (!tank.isEmpty()) {
+                        var key = "#" + i + "_" + chemType.getId();
+                        chemTankTag.put(key, tank.serializeNBT());
+                    }
                 }
             }
             return chemTankTag;
