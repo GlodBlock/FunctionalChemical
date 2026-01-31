@@ -12,6 +12,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -33,6 +34,7 @@ public class FCItemAndBlock {
     public static Pair<RegistryObject<Block>, RegistryObject<BlockEntityType<?>>> RADIOACTIVE_DRAWER;
 
     public static RegistryObject<Item> DECAY_UPGRADE;
+    public static RegistryObject<Item> ADV_DECAY_UPGRADE;
 
     public static void init(DeferredRegistryHelper registryHelper) {
         CHEM_DRAWER_1 = registryHelper.registerBlockWithTileItem(
@@ -61,6 +63,16 @@ public class FCItemAndBlock {
             public void addTooltipDetails(BasicItem.@Nullable Key key, ItemStack stack, List<Component> tooltip, boolean advanced) {
                 super.addTooltipDetails(key, stack, tooltip, advanced);
                 tooltip.add(Component.translatable("tooltip.functionalchemical.decay_upgrade").withStyle(ChatFormatting.GRAY));
+            }
+
+        });
+        ADV_DECAY_UPGRADE = registryHelper.registerGeneric(ForgeRegistries.ITEMS.getRegistryKey(), "adv_decay_upgrade", () -> new UpgradeItem(new Item.Properties().rarity(Rarity.EPIC), UpgradeItem.Type.UTILITY) {
+
+            @Override
+            public void addTooltipDetails(BasicItem.@Nullable Key key, ItemStack stack, List<Component> tooltip, boolean advanced) {
+                super.addTooltipDetails(key, stack, tooltip, advanced);
+                tooltip.add(Component.translatable("tooltip.functionalchemical.decay_upgrade").withStyle(ChatFormatting.GRAY));
+                tooltip.add(Component.translatable("tooltip.functionalchemical.adv_decay_upgrade").withStyle(ChatFormatting.GOLD));
             }
 
         });

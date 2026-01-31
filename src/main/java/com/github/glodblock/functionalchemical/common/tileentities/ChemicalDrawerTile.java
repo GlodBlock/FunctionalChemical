@@ -64,7 +64,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.IntSupplier;
+import java.util.function.LongSupplier;
 
 @SuppressWarnings("rawtypes")
 public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTile> {
@@ -104,7 +104,7 @@ public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTil
         this.getUtilityUpgrades().setInputFilter((stack, slot) -> stack.getItem() != FunctionalStorage.COLLECTOR_UPGRADE.get() && stack.getItem() instanceof UpgradeItem && ((UpgradeItem) stack.getItem()).getType() == UpgradeItem.Type.UTILITY);
     }
 
-    protected MergedChemicalTank createTank(int cap, int slot) {
+    protected MergedChemicalTank createTank(long cap, int slot) {
         return MergedChemicalTank.create(
                 (IGasTank) ChemType.GAS.tankBuilder().create(cap, c -> this.checkFilter(slot, (Chemical) c), () -> this.gasHandler),
                 (IInfusionTank) ChemType.INFUSE.tankBuilder().create(cap, c -> this.checkFilter(slot, (Chemical) c), () -> this.infuseHandler),
@@ -129,9 +129,9 @@ public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTil
         return this.slurryHandler;
     }
 
-    public int getCapacity() {
+    public long getCapacity() {
         if (this.isCreative()) {
-            return Integer.MAX_VALUE;
+            return Long.MAX_VALUE;
         }
         return this.getTankCapacity(this.getStorageMultiplier());
     }
@@ -182,9 +182,8 @@ public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTil
         return this.chemTank;
     }
 
-    protected int getTankCapacity(int storageMultiplier) {
-        long maxCap = (long) (this.type.getSlotAmount() / 32) * 1000L * (long) storageMultiplier;
-        return (int) Math.min(Integer.MAX_VALUE, maxCap);
+    protected long getTankCapacity(long storageMultiplier) {
+        return (this.type.getSlotAmount() / 32L) * 1000L * storageMultiplier;
     }
 
     @Override
@@ -260,7 +259,7 @@ public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTil
                 type.getSlotPosition(),
                 this::getChemTank,
                 () -> this.filter,
-                i -> (long) this.getCapacity()
+                i -> this.getCapacity()
         ));
     }
 
@@ -330,7 +329,7 @@ public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTil
                     var item = stack.getItem();
                     if (item == FunctionalStorage.PUSHING_UPGRADE.get()) {
                         var direction = UpgradeItem.getDirection(stack);
-                        TileUtil.getTileEntity(level, pos.relative(direction)).ifPresent(blockEntity1 -> blockEntity1.getCapability(ForgeCapabilities.FLUID_HANDLER, direction.getOpposite()).ifPresent(otherFluidHandler -> {
+                        TileUtil.getTileEntity(level, pos.relative(direction)).ifPresent(blockEntity1 -> {
                             for (var mt : this.chemTank.tanks()) {
                                 var mode = mt.getCurrent();
                                 if (mode != MergedChemicalTank.Current.EMPTY) {
@@ -345,7 +344,7 @@ public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTil
                                     }
                                 }
                             }
-                        }));
+                        });
                     }
                     if (item == FunctionalStorage.PULLING_UPGRADE.get()) {
                         var direction = UpgradeItem.getDirection(stack);
@@ -427,15 +426,16 @@ public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTil
             public ItemStack extractItem(int slot, int amount, boolean simulate) {
                 ItemStack stack = getStackInSlot(slot);
                 if (stack.getItem() instanceof StorageUpgradeItem) {
-                    int mult = 1;
+                    long mult = 1;
                     for (int i = 0; i < getStorageUpgrades().getSlots(); i++) {
                         if (getStorageUpgrades().getStackInSlot(i).getItem() instanceof StorageUpgradeItem) {
                             if (i == slot) continue;
                             var calculated = ((StorageUpgradeItem) getStorageUpgrades().getStackInSlot(i).getItem()).getStorageMultiplier() / getStorageDiv();
-                            if (mult == 1)
-                                mult = (int) calculated;
-                            else
-                                mult *= (int) calculated;
+                            if (mult == 1) {
+                                mult = (long) calculated;
+                            } else {
+                                mult *= (long) calculated;
+                            }
                         }
                     }
                     for (var tank : getChemTank().tanks()) {
@@ -500,7 +500,7 @@ public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTil
 
     private class ProtypeHandler<C extends Chemical<C>, S extends ChemicalStack<C>> extends MultiChemicalHandler<C, S> {
 
-        public ProtypeHandler(int size, SyncTank tanks, IntSupplier capacity, ChemType type) {
+        public ProtypeHandler(int size, SyncTank tanks, LongSupplier capacity, ChemType type) {
             super(size, tanks, capacity, type);
         }
 

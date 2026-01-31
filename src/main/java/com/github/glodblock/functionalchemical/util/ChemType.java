@@ -30,16 +30,6 @@ public enum ChemType {
         this.type = mekType;
     }
 
-    public static ChemType fromId(int id) {
-        return switch (id) {
-            case 0 -> GAS;
-            case 1 -> INFUSE;
-            case 2 -> PIGMENT;
-            case 3 -> SLURRY;
-            default -> throw new IllegalStateException("Unexpected value: " + id);
-        };
-    }
-
     public int getId() {
         return id;
     }

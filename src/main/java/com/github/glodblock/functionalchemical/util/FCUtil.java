@@ -1,5 +1,6 @@
 package com.github.glodblock.functionalchemical.util;
 
+import com.buuz135.functionalstorage.util.NumberUtils;
 import mekanism.api.chemical.ChemicalStack;
 import mekanism.api.chemical.gas.Gas;
 import mekanism.api.chemical.gas.GasStack;
@@ -12,7 +13,11 @@ import mekanism.api.chemical.slurry.SlurryStack;
 import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.DecimalFormat;
+
 public class FCUtil {
+
+    private static final DecimalFormat F = new DecimalFormat("####0.#");
 
     @Nullable
     public static ChemicalStack<?> loadChemStackFromNBT(CompoundTag tag) {
@@ -52,6 +57,26 @@ public class FCUtil {
             return tag;
         }
         return new CompoundTag();
+    }
+
+    public static String getFormatedChemBigNumber(long number) {
+        if (number <= Integer.MAX_VALUE) {
+            return NumberUtils.getFormatedFluidBigNumber((int) number);
+        }
+        if (number <= 1_000_000_000_000L) {
+            double show = (double) number / 1_000_000_000L;
+            return F.format(show) + "M B";
+        }
+        if (number <= 1_000_000_000_000_000L) {
+            double show = (double) number / 1_000_000_000_000L;
+            return F.format(show) + "G B";
+        }
+        if (number <= 1_000_000_000_000_000_000L) {
+            double show = (double) number / 1_000_000_000_000_000L;
+            return F.format(show) + "T B";
+        }
+        double show = (double) number / 1_000_000_000_000_000_000L;
+        return F.format(show) + "P B";
     }
 
 }

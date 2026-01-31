@@ -1,0 +1,37 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:and",
+          "values": [
+            {
+              "type": "forge:item_exists",
+              "item": "functionalchemical:adv_decay_upgrade"
+            }
+          ]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "key": {
+          "D": {
+            "item": "functionalchemical:decay_upgrade"
+          },
+          "X": {
+            "tag": "forge:storage_blocks/refined_glowstone"
+          }
+        },
+        "pattern": [
+          "DDD",
+          "DXD",
+          "DDD"
+        ],
+        "result": {
+          "item": "functionalchemical:adv_decay_upgrade"
+        }
+      }
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 package com.github.glodblock.functionalchemical.common.tileentities;
 
 import com.buuz135.functionalstorage.FunctionalStorage;
+import com.buuz135.functionalstorage.item.UpgradeItem;
 import com.github.glodblock.functionalchemical.common.FCItemAndBlock;
 import com.github.glodblock.functionalchemical.common.inventory.ChemicalDrawerTank;
 import com.github.glodblock.functionalchemical.common.inventory.RadioactiveDrawerTank;
@@ -20,6 +21,7 @@ import mekanism.common.config.MekanismConfig;
 import mekanism.common.tags.MekanismTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -35,10 +37,23 @@ public class RadioactiveDrawerTile extends ChemicalDrawerTile {
 
     public RadioactiveDrawerTile(BasicTileBlock<ChemicalDrawerTile> base, BlockEntityType<ChemicalDrawerTile> blockEntityType, BlockPos pos, BlockState state) {
         super(base, blockEntityType, pos, state, FunctionalStorage.DrawerType.X_1);
+        this.getUtilityUpgrades().setInputFilter((stack, slot) -> {
+            var item = stack.getItem();
+            if (item == FunctionalStorage.COLLECTOR_UPGRADE.get() || item == FunctionalStorage.VOID_UPGRADE.get()) {
+                return false;
+            } else {
+                return item instanceof UpgradeItem && ((UpgradeItem) item).getType() == UpgradeItem.Type.UTILITY;
+            }
+        });
     }
 
     @Override
-    protected MergedChemicalTank createTank(int cap, int slot) {
+    public boolean isVoid() {
+        return false;
+    }
+
+    @Override
+    protected MergedChemicalTank createTank(long cap, int slot) {
         return MergedChemicalTank.create(
                 new RadioactiveDrawerTank(cap, c -> this.checkFilter(slot, c), () -> this.gasHandler),
                 (IInfusionTank) ChemType.INFUSE.tankBuilder().create(cap, ConstantPredicates.alwaysFalse(), () -> this.infuseHandler),
@@ -48,9 +63,8 @@ public class RadioactiveDrawerTile extends ChemicalDrawerTile {
     }
 
     @Override
-    protected int getTankCapacity(int storageMultiplier) {
-        long maxCap = (long) (this.type.getSlotAmount() / 256) * 1000L * (long) storageMultiplier;
-        return (int) Math.min(Integer.MAX_VALUE, maxCap);
+    protected long getTankCapacity(long storageMultiplier) {
+        return (this.type.getSlotAmount() / 256) * 1000L * storageMultiplier;
     }
 
     @Nonnull
@@ -78,8 +92,9 @@ public class RadioactiveDrawerTile extends ChemicalDrawerTile {
             for (int i = 0; i < this.getUtilityUpgrades().getSlots(); i++) {
                 var stack = this.getUtilityUpgrades().getStackInSlot(i);
                 if (!stack.isEmpty()) {
-                    if (stack.getItem() == FCItemAndBlock.DECAY_UPGRADE.get()) {
-                        var toDecay = MekanismConfig.general.radioactiveWasteBarrelDecayAmount.get();
+                    int rate = getDecayRate(stack.getItem());
+                    if (rate > 0) {
+                        var toDecay = MekanismConfig.general.radioactiveWasteBarrelDecayAmount.get() * rate;
                         for (var mt : this.chemTank.tanks()) {
                             var tank = mt.getTankForType(ChemicalType.GAS);
                             GasStack chem = (GasStack) tank.getStack();
@@ -91,6 +106,16 @@ public class RadioactiveDrawerTile extends ChemicalDrawerTile {
                 }
             }
         }
+    }
+
+    private static int getDecayRate(ItemLike item) {
+        if (item == FCItemAndBlock.DECAY_UPGRADE.get()) {
+            return 1;
+        }
+        if (item == FCItemAndBlock.ADV_DECAY_UPGRADE.get()) {
+            return 10;
+        }
+        return 0;
     }
 
 }

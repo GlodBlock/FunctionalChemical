@@ -5,8 +5,8 @@ import com.buuz135.functionalstorage.block.tile.ControllableDrawerTile;
 import com.buuz135.functionalstorage.client.DrawerRenderer;
 import com.buuz135.functionalstorage.client.FunctionalStorageClientConfig;
 import com.buuz135.functionalstorage.item.ConfigurationToolItem;
-import com.buuz135.functionalstorage.util.NumberUtils;
 import com.github.glodblock.functionalchemical.common.tileentities.ChemicalDrawerTile;
+import com.github.glodblock.functionalchemical.util.FCUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import mekanism.api.chemical.ChemicalStack;
@@ -30,7 +30,7 @@ public class ChemDrawerTileTESR implements BlockEntityRenderer<ChemicalDrawerTil
 
     }
 
-    public static void renderChemStack(PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLight, int combinedOverlay, ChemicalStack<?> stack, long amount, long maxAmount, float scale, ControllableDrawerTile.DrawerOptions options, AABB bounds, boolean halfText, boolean isSmallBar) {
+    public static void renderChemStack(PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLight, int combinedOverlay, ChemicalStack<?> stack, long amount, long maxAmount, float scale, ControllableDrawerTile.DrawerOptions options, AABB bounds, boolean halfText) {
         matrixStack.pushPose();
         var still = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(stack.getType().getIcon());
         var builder = bufferIn.getBuffer(RenderType.solid());
@@ -84,7 +84,7 @@ public class ChemDrawerTileTESR implements BlockEntityRenderer<ChemicalDrawerTil
             matrixStack.pushPose();
             matrixStack.translate(0.5, 0.84, 0.97);
             if (halfText) matrixStack.translate(-0.25, 0, 0);
-            DrawerRenderer.renderText(matrixStack, bufferIn, combinedOverlay, Component.literal(ChatFormatting.WHITE + NumberUtils.getFormatedFluidBigNumber((int) amount)), Direction.NORTH, scale);
+            DrawerRenderer.renderText(matrixStack, bufferIn, combinedOverlay, Component.literal(ChatFormatting.WHITE + FCUtil.getFormatedChemBigNumber(amount)), Direction.NORTH, scale);
             matrixStack.popPose();
         }
         matrixStack.pushPose();
@@ -154,7 +154,7 @@ public class ChemDrawerTileTESR implements BlockEntityRenderer<ChemicalDrawerTil
                 displayAmount = 0;
             }
             var bounds = new AABB(1 / 16D, 1.25 / 16D, 1 / 16D, 15 / 16D, 1.25 / 16D + (stack.stack().getAmount() / (double) tile.getCapacity()) * (12.5 / 16D), 15 / 16D);
-            renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, false, false);
+            renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, false);
         }
     }
 
@@ -167,7 +167,7 @@ public class ChemDrawerTileTESR implements BlockEntityRenderer<ChemicalDrawerTil
                     displayAmount = 0;
                 }
                 var bounds = new AABB(1 / 16D, 1.25 / 16D, 1 / 16D, 15 / 16D, 1.25 / 16D + (stack.stack().getAmount() / (double) tile.getCapacity()) * (5.5 / 16D), 15 / 16D);
-                renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, false, true);
+                renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, false);
             }
         }
         {
@@ -180,7 +180,7 @@ public class ChemDrawerTileTESR implements BlockEntityRenderer<ChemicalDrawerTil
                     displayAmount = 0;
                 }
                 var bounds = new AABB(1 / 16D, 1.25 / 16D, 1 / 16D, 15 / 16D, 1.25 / 16D + (stack.stack().getAmount() / (double) tile.getCapacity()) * (5.5 / 16D), 15 / 16D);
-                renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, false, true);
+                renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, false);
                 matrixStack.popPose();
             }
         }
@@ -197,7 +197,7 @@ public class ChemDrawerTileTESR implements BlockEntityRenderer<ChemicalDrawerTil
                     displayAmount = 0;
                 }
                 var bounds = new AABB(1 / 16D, 1.25 / 16D, 1 / 16D, 8 / 16D, 1.25 / 16D + (stack.stack().getAmount() / (double) tile.getCapacity()) * (5.5 / 16D), 15 / 16D);
-                renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, true, true);
+                renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, true);
                 matrixStack.popPose();
             }
         }
@@ -210,7 +210,7 @@ public class ChemDrawerTileTESR implements BlockEntityRenderer<ChemicalDrawerTil
                     displayAmount = 0;
                 }
                 var bounds = new AABB(1 / 16D, 1.25 / 16D, 1 / 16D, 8 / 16D, 1.25 / 16D + (stack.stack().getAmount() / (double) tile.getCapacity()) * (5.5 / 16D), 15 / 16D);
-                renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, true, true);
+                renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, true);
                 matrixStack.popPose();
             }
         }
@@ -224,7 +224,7 @@ public class ChemDrawerTileTESR implements BlockEntityRenderer<ChemicalDrawerTil
                     displayAmount = 0;
                 }
                 var bounds = new AABB(1 / 16D, 1.25 / 16D, 1 / 16D, 8 / 16D, 1.25 / 16D + (stack.stack().getAmount() / (double) tile.getCapacity()) * (5.5 / 16D), 15 / 16D);
-                renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, true, true);
+                renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, true);
                 matrixStack.popPose();
             }
         }
@@ -238,7 +238,7 @@ public class ChemDrawerTileTESR implements BlockEntityRenderer<ChemicalDrawerTil
                     displayAmount = 0;
                 }
                 var bounds = new AABB(1 / 16D, 1.25 / 16D, 1 / 16D, 8 / 16D, 1.25 / 16D + (stack.stack().getAmount() / (double) tile.getCapacity()) * (5.5 / 16D), 15 / 16D);
-                renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, true, true);
+                renderChemStack(matrixStack, bufferIn, combinedLightIn, combinedOverlayIn, stack.stack(), displayAmount, tile.getCapacity(), 0.007f, tile.getDrawerOptions(), bounds, true);
                 matrixStack.popPose();
             }
         }

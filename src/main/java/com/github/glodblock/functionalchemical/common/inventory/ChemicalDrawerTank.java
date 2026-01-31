@@ -2,6 +2,7 @@ package com.github.glodblock.functionalchemical.common.inventory;
 
 import mekanism.api.Action;
 import mekanism.api.AutomationType;
+import mekanism.api.NBTConstants;
 import mekanism.api.chemical.BasicChemicalTank;
 import mekanism.api.chemical.Chemical;
 import mekanism.api.chemical.ChemicalStack;
@@ -19,6 +20,7 @@ import mekanism.api.chemical.slurry.ISlurryTank;
 import mekanism.api.chemical.slurry.Slurry;
 import mekanism.api.chemical.slurry.SlurryStack;
 import mekanism.api.functions.ConstantPredicates;
+import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
@@ -40,7 +42,22 @@ public abstract class ChemicalDrawerTank<C extends Chemical<C>, S extends Chemic
     }
 
     public void setCapacity(long capacity) {
+        if (capacity < this.capacity) {
+            var stack = super.getStack();
+            if (stack.getAmount() > capacity) {
+                stack.setAmount(capacity);
+            }
+        }
         this.capacity = capacity;
+    }
+
+    @Override
+    public @NotNull CompoundTag serializeNBT() {
+        CompoundTag nbt = new CompoundTag();
+        if (!this.isEmpty()) {
+            nbt.put(NBTConstants.STORED, super.getStack().write(new CompoundTag()));
+        }
+        return nbt;
     }
 
     @Override
@@ -51,7 +68,7 @@ public abstract class ChemicalDrawerTank<C extends Chemical<C>, S extends Chemic
     @Override
     public long getCapacity() {
         if (this.handler.get().isDrawerCreative()) {
-            return Integer.MAX_VALUE;
+            return Long.MAX_VALUE;
         }
         return this.capacity;
     }
@@ -80,7 +97,7 @@ public abstract class ChemicalDrawerTank<C extends Chemical<C>, S extends Chemic
     public long getStored() {
         var stored = super.getStored();
         if (stored > 0 && this.handler.get().isDrawerCreative()) {
-            return Integer.MAX_VALUE;
+            return Long.MAX_VALUE;
         }
         return stored;
     }
@@ -91,7 +108,7 @@ public abstract class ChemicalDrawerTank<C extends Chemical<C>, S extends Chemic
         var stack = super.getStack();
         if (!stack.isEmpty() && this.handler.get().isDrawerCreative()) {
             var copy = stack.copy();
-            copy.setAmount(Integer.MAX_VALUE);
+            copy.setAmount(Long.MAX_VALUE);
             return (S) copy;
         }
         return stack;

@@ -1,7 +1,7 @@
 package com.github.glodblock.functionalchemical.client.gui;
 
-import com.buuz135.functionalstorage.util.NumberUtils;
 import com.github.glodblock.functionalchemical.common.tileentities.ChemicalDrawerTile;
+import com.github.glodblock.functionalchemical.util.FCUtil;
 import com.hrznstudio.titanium.client.screen.addon.BasicScreenAddon;
 import com.hrznstudio.titanium.client.screen.asset.IAssetProvider;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -118,7 +118,7 @@ public class ChemDrawerInfoGuiAddon extends BasicScreenAddon {
             if (chemStack != null && !chemStack.isEmpty()) {
                 var x = guiX + slotPosition.apply(i).getLeft() + getPosX();
                 var y = guiY + slotPosition.apply(i).getRight() + getPosY();
-                var amount = NumberUtils.getFormatedFluidBigNumber((int) chemStack.getAmount()) + "/" + NumberUtils.getFormatedFluidBigNumber(Math.toIntExact(slotMaxAmount.apply(i)));
+                var amount = FCUtil.getFormatedChemBigNumber(chemStack.getAmount()) + "/" + FCUtil.getFormatedChemBigNumber(slotMaxAmount.apply(i));
                 var scale = 0.5f;
                 stack.translate(0, 0, 200);
                 stack.scale(scale, scale, scale);
@@ -151,7 +151,7 @@ public class ChemDrawerInfoGuiAddon extends BasicScreenAddon {
                     componentList.add(Component.translatable("gui.functionalchemical.chemical").withStyle(ChatFormatting.GOLD).append(Component.literal("Empty").withStyle(ChatFormatting.WHITE)));
                 } else {
                     componentList.add(Component.translatable("gui.functionalchemical.chemical").withStyle(ChatFormatting.GOLD).append(over.getTextComponent().copy().withStyle(ChatFormatting.WHITE)));
-                    var amount = NumberUtils.getFormatedFluidBigNumber((int) over.getAmount()) + "/" + NumberUtils.getFormatedFluidBigNumber(Math.toIntExact(slotMaxAmount.apply(i)));
+                    var amount = FCUtil.getFormatedChemBigNumber(over.getAmount()) + "/" + FCUtil.getFormatedChemBigNumber(this.slotMaxAmount.apply(i));
                     componentList.add(Component.translatable("gui.functionalstorage.amount").withStyle(ChatFormatting.GOLD).append(Component.literal(amount).withStyle(ChatFormatting.WHITE)));
                 }
                 componentList.add(Component.translatable("gui.functionalstorage.slot").withStyle(ChatFormatting.GOLD).append(Component.literal(i + "").withStyle(ChatFormatting.WHITE)));

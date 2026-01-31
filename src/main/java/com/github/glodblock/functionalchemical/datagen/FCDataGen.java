@@ -30,7 +30,6 @@ public class FCDataGen {
         gen.addProvider(true, block);
         gen.addProvider(true, new FCRecipeProvider(gen, blocksToProcess));
         gen.addProvider(true, new TitaniumLootTableProvider(gen, blocksToProcess));
-        gen.addProvider(true, new FCItemTagsProvider(gen, block, file));
     }
 
 }

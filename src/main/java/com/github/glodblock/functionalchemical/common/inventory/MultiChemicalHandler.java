@@ -10,16 +10,16 @@ import mekanism.api.chemical.IChemicalHandler;
 import mekanism.api.chemical.IChemicalTank;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.IntSupplier;
+import java.util.function.LongSupplier;
 
 public abstract class MultiChemicalHandler<C extends Chemical<C>, S extends ChemicalStack<C>> implements IChemicalHandler<C, S> {
 
     private final ChemicalDrawerTile.SyncTank tanks;
-    private final IntSupplier capacity;
+    private final LongSupplier capacity;
     private final int size;
     private final ChemType type;
 
-    public MultiChemicalHandler(int size, ChemicalDrawerTile.SyncTank tanks, IntSupplier capacity, ChemType type) {
+    public MultiChemicalHandler(int size, ChemicalDrawerTile.SyncTank tanks, LongSupplier capacity, ChemType type) {
         this.size = size;
         this.tanks = tanks;
         this.type = type;
@@ -65,7 +65,7 @@ public abstract class MultiChemicalHandler<C extends Chemical<C>, S extends Chem
 
     @Override
     public long getTankCapacity(int tank) {
-        return this.capacity.getAsInt();
+        return this.capacity.getAsLong();
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

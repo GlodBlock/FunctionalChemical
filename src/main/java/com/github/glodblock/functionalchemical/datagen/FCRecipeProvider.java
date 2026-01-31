@@ -37,6 +37,13 @@ public class FCRecipeProvider extends TitaniumRecipeProvider {
                 .define('B', MekanismTags.Items.INGOTS_BRONZE)
                 .define('D', StorageTags.DRAWER)
                 .save(c);
+        TitaniumShapedRecipeBuilder.shapedRecipe(FCItemAndBlock.ADV_DECAY_UPGRADE.get())
+                .pattern("DDD")
+                .pattern("DXD")
+                .pattern("DDD")
+                .define('X', MekanismTags.Items.STORAGE_BLOCKS_REFINED_GLOWSTONE)
+                .define('D', FCItemAndBlock.DECAY_UPGRADE.get())
+                .save(c);
     }
 
 }
