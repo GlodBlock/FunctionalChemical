@@ -7,15 +7,16 @@ import com.buuz135.functionalstorage.block.tile.StorageControllerTile;
 import com.buuz135.functionalstorage.inventory.item.DrawerCapabilityProvider;
 import com.buuz135.functionalstorage.item.ConfigurationToolItem;
 import com.buuz135.functionalstorage.item.LinkingToolItem;
-import com.buuz135.functionalstorage.util.NumberUtils;
 import com.github.glodblock.functionalchemical.common.FCItemAndBlock;
 import com.github.glodblock.functionalchemical.common.tileentities.ChemicalDrawerTile;
+import com.github.glodblock.functionalchemical.util.ChemType;
 import com.github.glodblock.functionalchemical.util.FCUtil;
 import com.hrznstudio.titanium.block.RotatableBlock;
 import com.hrznstudio.titanium.datagenerator.loot.block.BasicBlockLootTables;
 import com.hrznstudio.titanium.recipe.generator.TitaniumShapedRecipeBuilder;
 import com.hrznstudio.titanium.util.RayTraceUtils;
 import com.hrznstudio.titanium.util.TileUtil;
+import mekanism.api.NBTConstants;
 import mekanism.api.chemical.merged.MergedChemicalTank;
 import mekanism.common.registries.MekanismBlocks;
 import net.minecraft.ChatFormatting;
@@ -60,6 +61,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -257,13 +259,23 @@ public class ChemicalDrawerBlock extends RotatableBlock<ChemicalDrawerTile> {
     public void appendHoverText(@NotNull ItemStack itemStack, @Nullable BlockGetter world, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(itemStack, world, tooltip, flag);
         if (itemStack.hasTag() && itemStack.getTag().contains("Tile")) {
-            CompoundTag tileTag = itemStack.getTag().getCompound("Tile").getCompound("chemHandler");
+            CompoundTag tileTag = itemStack.getTag().getCompound("Tile").getCompound("chemTank");
             tooltip.add(Component.translatable("drawer.block.contents").withStyle(ChatFormatting.GRAY));
             for(int i = 0; i < this.type.getSlots(); ++i) {
-                var stack = FCUtil.loadChemStackFromNBT(tileTag.getCompound(String.valueOf(i)));
-                if (stack != null && !stack.isEmpty()) {
-                    tooltip.add(Component.literal(" - " + ChatFormatting.YELLOW + NumberUtils.getFormatedFluidBigNumber((int) stack.getAmount()) + ChatFormatting.WHITE + " of ").append(stack.getTextComponent().copy().withStyle(ChatFormatting.GOLD)));
+                for (var type : ChemType.values()) {
+                    var key = "#" + i + "_" + type.getId();
+                    if (tileTag.contains(key)) {
+
+                        var stackTag = new CompoundTag();
+                        stackTag.put("stack", tileTag.getCompound(key).getCompound(NBTConstants.STORED));
+                        stackTag.putString("type", type.name().toLowerCase(Locale.US));
+                        var stack = FCUtil.loadChemStackFromNBT(stackTag);
+                        if (stack != null && !stack.isEmpty()) {
+                            tooltip.add(Component.literal(" - " + ChatFormatting.YELLOW + FCUtil.getFormatedChemBigNumber(stack.getAmount()) + ChatFormatting.WHITE + " of ").append(stack.getTextComponent().copy().withStyle(ChatFormatting.GOLD)));
+                        }
+                    }
                 }
+
             }
         }
     }
