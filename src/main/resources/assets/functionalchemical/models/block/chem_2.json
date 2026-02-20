@@ -1,0 +1,12 @@
+{
+  "parent": "functionalstorage:block/fluid_2",
+  "render_type": "cutout",
+  "textures": {
+    "3": "functionalchemical:block/chem_front_2",
+    "4": "functionalchemical:block/chem_inner",
+    "5": "functionalchemical:block/chem_side",
+    "6": "functionalchemical:block/chem_top",
+    "lock_icon": "functionalstorage:block/unlock",
+    "particle": "functionalchemical:block/chem_side"
+  }
+}

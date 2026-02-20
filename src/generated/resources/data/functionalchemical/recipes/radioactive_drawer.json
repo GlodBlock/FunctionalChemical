@@ -1,0 +1,39 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:and",
+          "values": [
+            {
+              "type": "forge:item_exists",
+              "item": "functionalchemical:radioactive_drawer"
+            }
+          ]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "C": {
+            "item": "mekanism:radioactive_waste_barrel"
+          },
+          "P": {
+            "tag": "minecraft:planks"
+          }
+        },
+        "pattern": [
+          "PPP",
+          "PCP",
+          "PPP"
+        ],
+        "result": {
+          "item": "functionalchemical:radioactive_drawer"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}
