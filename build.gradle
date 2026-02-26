@@ -14,7 +14,7 @@ repositories {
 }
 
 base {
-    archivesName = mod_name
+    archivesName = "FunctionalChemical"
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
