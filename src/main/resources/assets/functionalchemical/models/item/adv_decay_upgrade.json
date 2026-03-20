@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "functionalchemical:item/adv_decay_upgrade"
+  }
+}

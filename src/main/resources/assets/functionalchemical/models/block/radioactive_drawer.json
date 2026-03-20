@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "neoforge:composite",
+  "textures": {
+    "particle": "functionalchemical:block/waste_side"
+  },
+  "children": {
+    "side": {
+      "parent": "functionalstorage:block/side_machine",
+      "textures": {
+        "bottom": "functionalchemical:block/waste_top",
+        "side": "functionalchemical:block/waste_side",
+        "top": "functionalchemical:block/waste_top"
+      }
+    },
+    "front": {
+      "parent": "functionalstorage:block/fluid_front_1",
+      "textures": {
+        "particle": "functionalchemical:block/chem_front",
+        "front": "functionalchemical:block/chem_front"
+      }
+    },
+    "tank": {
+      "parent": "functionalstorage:block/fluid_inner_1",
+      "textures": {
+        "fluid_inner": "functionalchemical:block/chem_inner"
+      }
+    }
+  },
+  "item_render_order": [
+    "front",
+    "side"
+  ]
+}

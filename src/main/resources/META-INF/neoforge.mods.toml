@@ -1,0 +1,44 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+[[mods]]
+modId="functionalchemical"
+issueTrackerURL="https://github.com/GlodBlock/FunctionalChemical/issues"
+displayURL="https://github.com/GlodBlock/FunctionalChemical"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="${mod_authors}"
+logoFile="logo.png"
+description='''${mod_description}'''
+[[mixins]]
+config="mixins.functionalchemical.json"
+[[dependencies.functionalchemical]]
+modId="neoforge"
+type="REQUIRED"
+versionRange="${neo_version_range}"
+ordering="NONE"
+side="BOTH"
+[[dependencies.functionalchemical]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.functionalchemical]]
+    modId="glodium"
+    mandatory=true
+    versionRange="*"
+    ordering="AFTER"
+    side="BOTH"
+[[dependencies.functionalchemical]]
+    modId="mekanism"
+    mandatory=true
+    versionRange="*"
+    ordering="AFTER"
+    side="BOTH"
+[[dependencies.functionalchemical]]
+    modId="functionalstorage"
+    mandatory=true
+    versionRange="*"
+    ordering="AFTER"
+    side="BOTH"
