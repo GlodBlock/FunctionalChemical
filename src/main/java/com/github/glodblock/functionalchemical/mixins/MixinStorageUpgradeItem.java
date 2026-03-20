@@ -26,6 +26,8 @@ public abstract class MixinStorageUpgradeItem {
         var prop = getProps(level);
         if (level != StorageUpgradeItem.StorageTier.IRON) {
             prop.component(FCSingletons::getChemStorageModifier, new SizeProvider.ModifyFactor((float) (FunctionalStorageConfig.getLevelMult(level.getLevel()) / FunctionalChemicalConfig.CHEMICAL_DIVISOR)));
+        } else {
+            prop.component(FCSingletons::getChemStorageModifier, new SizeProvider.SetBase(1));
         }
         return prop;
     }

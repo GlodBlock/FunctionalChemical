@@ -47,7 +47,11 @@ public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTil
     protected final FunctionalStorage.DrawerType type;
 
     public ChemicalDrawerTile(BasicTileBlock<ChemicalDrawerTile> base, BlockEntityType<ChemicalDrawerTile> blockEntityType, BlockPos pos, BlockState state, FunctionalStorage.DrawerType type) {
-        super(base, blockEntityType, pos, state, new DrawerProperties(type.getSlotAmount(), FCSingletons::getChemStorageModifier));
+        this(base, blockEntityType, pos, state, type, 2);
+    }
+
+    public ChemicalDrawerTile(BasicTileBlock<ChemicalDrawerTile> base, BlockEntityType<ChemicalDrawerTile> blockEntityType, BlockPos pos, BlockState state, FunctionalStorage.DrawerType type, double baseModifier) {
+        super(base, blockEntityType, pos, state, new DrawerProperties((int) (type.getSlotAmount() * baseModifier), FCSingletons::getChemStorageModifier));
         this.type = type;
         this.filter = new SyncFilter(type.getSlots());
         this.handler = this.createHandler(type.getSlots(), this.getCapacity());
@@ -106,7 +110,7 @@ public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTil
     }
 
     protected long getTankCapacity(double storageMultiplier) {
-        return (long) (this.type.getSlotAmount() / 32D * 1000D * storageMultiplier);
+        return (long) Math.floor(1000D * storageMultiplier);
     }
 
     @Override

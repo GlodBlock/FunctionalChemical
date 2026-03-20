@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 public class RadioactiveDrawerTile extends ChemicalDrawerTile {
 
     public RadioactiveDrawerTile(BasicTileBlock<ChemicalDrawerTile> base, BlockEntityType<ChemicalDrawerTile> blockEntityType, BlockPos pos, BlockState state) {
-        super(base, blockEntityType, pos, state, FunctionalStorage.DrawerType.X_1);
+        super(base, blockEntityType, pos, state, FunctionalStorage.DrawerType.X_1, 0.25);
         this.getUtilityUpgrades().setInputFilter((stack, slot) -> {
             var item = stack.getItem();
             if (item == FunctionalStorage.COLLECTOR_UPGRADE.get() || item == FunctionalStorage.VOID_UPGRADE.get()) {
@@ -38,11 +38,6 @@ public class RadioactiveDrawerTile extends ChemicalDrawerTile {
     @Override
     protected MultiSlotChemicalHandler createHandler(int size, long cap) {
         return new MultiSlotChemicalHandler(size, slot -> new RadioactiveDrawerTank(cap, () -> this, c -> this.checkFilter(slot, c.getChemical())));
-    }
-
-    @Override
-    protected long getTankCapacity(double storageMultiplier) {
-        return (long) (this.type.getSlotAmount() / 256D * 1000D * storageMultiplier);
     }
 
     @Override
