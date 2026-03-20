@@ -33,12 +33,12 @@ side="BOTH"
 [[dependencies.functionalchemical]]
     modId="mekanism"
     mandatory=true
-    versionRange="*"
+    versionRange="[10.7.17,)"
     ordering="AFTER"
     side="BOTH"
 [[dependencies.functionalchemical]]
     modId="functionalstorage"
     mandatory=true
-    versionRange="*"
+    versionRange="[1.21.1-1.5.4,)"
     ordering="AFTER"
     side="BOTH"
