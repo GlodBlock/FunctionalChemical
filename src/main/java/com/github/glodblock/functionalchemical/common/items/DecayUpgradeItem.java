@@ -33,7 +33,7 @@ public class DecayUpgradeItem extends UpgradeItem {
     public void addTooltipDetails(BasicItem.@Nullable Key key, ItemStack stack, List<Component> tooltip, boolean advanced) {
         super.addTooltipDetails(key, stack, tooltip, advanced);
         tooltip.add(Component.translatable("tooltip.functionalchemical.decay_upgrade").withStyle(ChatFormatting.GRAY));
-        if (advanced) {
+        if (this.advanced) {
             tooltip.add(Component.translatable("tooltip.functionalchemical.adv_decay_upgrade").withStyle(ChatFormatting.GOLD));
         }
     }
