@@ -4,6 +4,8 @@ import com.github.glodblock.functionalchemical.client.ClientRegistryHandler;
 import com.github.glodblock.functionalchemical.common.FCSingletons;
 import com.github.glodblock.functionalchemical.common.FCRegistryHandler;
 import com.github.glodblock.functionalchemical.common.tileentities.ChemicalDrawerTile;
+import com.github.glodblock.functionalchemical.common.tileentities.FramedChemicalDrawerTile;
+import com.github.glodblock.functionalchemical.common.tileentities.FramedRadioactiveDrawerTile;
 import com.github.glodblock.functionalchemical.common.tileentities.RadioactiveDrawerTile;
 import com.hrznstudio.titanium.module.ModuleController;
 import com.hrznstudio.titanium.nbthandler.NBTManager;
@@ -43,6 +45,8 @@ public class FunctionalChemical extends ModuleController {
         this.addCreativeTab("main", () -> new ItemStack(FCSingletons.CHEM_DRAWER_1), MODID, FCSingletons.TAB);
         NBTManager.getInstance().scanTileClassForAnnotations(ChemicalDrawerTile.class);
         NBTManager.getInstance().scanTileClassForAnnotations(RadioactiveDrawerTile.class);
+        NBTManager.getInstance().scanTileClassForAnnotations(FramedChemicalDrawerTile.class);
+        NBTManager.getInstance().scanTileClassForAnnotations(FramedRadioactiveDrawerTile.class);
     }
 
     public static ResourceLocation id(String id) {

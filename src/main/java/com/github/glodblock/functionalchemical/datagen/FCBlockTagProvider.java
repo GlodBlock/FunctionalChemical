@@ -26,7 +26,11 @@ public class FCBlockTagProvider extends BlockTagsProvider {
                 .add(FCSingletons.CHEM_DRAWER_1)
                 .add(FCSingletons.CHEM_DRAWER_2)
                 .add(FCSingletons.CHEM_DRAWER_4)
-                .add(FCSingletons.RADIOACTIVE_DRAWER);
+                .add(FCSingletons.RADIOACTIVE_DRAWER)
+                .add(FCSingletons.FRAMED_CHEM_DRAWER_1)
+                .add(FCSingletons.FRAMED_CHEM_DRAWER_2)
+                .add(FCSingletons.FRAMED_CHEM_DRAWER_4)
+                .add(FCSingletons.FRAMED_RADIOACTIVE_DRAWER);
     }
 
 }

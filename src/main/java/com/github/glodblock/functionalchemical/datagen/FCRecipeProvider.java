@@ -12,6 +12,7 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.util.Lazy;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -26,7 +27,7 @@ public class FCRecipeProvider extends RecipeProvider {
     }
 
     @Override
-    protected void buildRecipes(RecipeOutput c) {
+    protected void buildRecipes(@NotNull RecipeOutput c) {
         this.blocksToProcess.get().stream()
                 .map((block) -> (BasicBlock) block)
                 .forEach((basicBlock) -> basicBlock.registerRecipe(c));

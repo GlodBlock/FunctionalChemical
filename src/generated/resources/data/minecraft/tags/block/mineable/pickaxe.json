@@ -3,6 +3,10 @@
     "functionalchemical:chem_1",
     "functionalchemical:chem_2",
     "functionalchemical:chem_4",
-    "functionalchemical:radioactive_drawer"
+    "functionalchemical:radioactive_drawer",
+    "functionalchemical:framed_chem_1",
+    "functionalchemical:framed_chem_2",
+    "functionalchemical:framed_chem_4",
+    "functionalchemical:framed_radioactive_drawer"
   ]
 }
