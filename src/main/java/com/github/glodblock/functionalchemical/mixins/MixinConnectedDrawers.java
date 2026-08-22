@@ -1,10 +1,13 @@
 package com.github.glodblock.functionalchemical.mixins;
 
+import com.buuz135.functionalstorage.block.tile.ItemControllableDrawerTile;
 import com.buuz135.functionalstorage.block.tile.StorageControllerTile;
 import com.buuz135.functionalstorage.util.ConnectedDrawers;
 import com.github.glodblock.functionalchemical.common.tileentities.ChemicalDrawerTile;
 import com.github.glodblock.functionalchemical.util.asm.ChemicalController;
 import com.github.glodblock.functionalchemical.util.asm.ChemicalModule;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import mekanism.api.chemical.IChemicalHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -14,6 +17,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -54,11 +58,25 @@ public abstract class MixinConnectedDrawers implements ChemicalModule {
         this.init();
     }
 
+    @WrapOperation(
+            method = "rebuild",
+            constant = @Constant(classValue = ItemControllableDrawerTile.class, ordinal = 0),
+            remap = false
+    )
+    private boolean passChemDrawer(Object obj, Operation<Boolean> original) {
+        if (obj instanceof ChemicalDrawerTile) {
+            return true;
+        } else {
+            return original.call(obj);
+        }
+    }
+
     @Redirect(
             method = "rebuild",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/level/Level;getBlockEntity(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/entity/BlockEntity;",
+                    ordinal = 1,
                     remap = true
             ),
             remap = false
@@ -75,7 +93,10 @@ public abstract class MixinConnectedDrawers implements ChemicalModule {
 
     @Inject(
             method = "rebuild",
-            at = @At("TAIL"),
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lcom/buuz135/functionalstorage/fluid/ControllerFluidHandler;invalidateSlots()V"
+            ),
             remap = false
     )
     private void afterRebuild(CallbackInfo ci) {

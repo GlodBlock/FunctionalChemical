@@ -133,6 +133,9 @@ public class ChemicalDrawerTile extends ControllableDrawerTile<ChemicalDrawerTil
 
     @Override
     public boolean isEverythingEmpty() {
+        if (this.getPriority() != 0) {
+            return false;
+        }
         if (this.isLocked()) {
             return false;
         }

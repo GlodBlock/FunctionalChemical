@@ -82,7 +82,7 @@ repositories {
 dependencies {
     implementation "io.github.glodblock:Glodium:1.21-2.2-neoforge"
     implementation "mekanism:Mekanism:1.21.1-10.7.17.83"
-    implementation "curse.maven:functional-storage-556861:6930104"
+    implementation "curse.maven:functional-storage-556861:8459097"
     implementation "com.hrznstudio:titanium:1.21-4.0.42"
     // runtime test
     runtimeOnly "mezz.jei:jei-1.21.1-neoforge:19.21.0.247"
